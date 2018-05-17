@@ -41,7 +41,7 @@ $ yarn watch
 - `nextTrainBatch(batchSize)`：從訓練集中回傳一批隨機圖像及其標籤
 - `nextTestBatch(batchSize)`：從測試集中回傳一批圖像及其標籤
 
-**註：**在訓練 MNIST 分類器時，隨機拿出資料非常重要，這樣模型訓練才不會因為我們提供的順序而受影響。例如我們先將所有 *1* 丟進去，在此訓練階段中可能學會很簡單的預測 1（因為這會最小化損失）。如果我們只餵 2 給模型，它可能會容易指預測出 2 而永遠不會是 1（因為這又會最小化損失）。我們的模型將無法學習對代表性的數字樣本作出準確的預測。
+**註：**在訓練 MNIST 分類器時，隨機拿出資料非常重要，這樣模型訓練才不會因為我們提供的順序而受影響。例如我們先將所有 *1* 丟進去，在此訓練階段中可能學會很簡單的預測 1（因為這會最小化損失）。如果我們只餵 2 給模型，它可能會容易只預測出 2 而永遠不會是 1（因為這又會最小化損失）。我們的模型將無法學習對代表性的數字樣本作出準確的預測。
 
 ## 建立模型
 
@@ -101,19 +101,77 @@ model.add(tf.layers.maxPooling2d({
 
 ## 增加剩餘層
 
+重複層結構是神經網路中常見的模式。讓我們在模型裡再增加第二個卷積層，然後再增加一個池層。注意我們的第二個卷積層裡，我們把過濾器的數量從 8 調到 16。另外還要注意我們沒有特別指定 `inputShape`，因為它可以從上一層的輸出自己推裡出來：
+
+```javascript
+model.add(tf.layers.conv2d({
+  kernelSize: 5,
+  filters: 16,
+  strides: 1,
+  activation: 'relu',
+  kernelInitializer: 'VarianceScaling'
+}));
+
+model.add(tf.layers.maxPooling2d({
+  poolSize: [2, 2],
+  strides: [2, 2]
+}));
+```
+
+接著，我們增加一個 [`flatten`](https://js.tensorflow.org/api/latest/index.html#layers.flatten) 層來把前一層的輸出平整化成向量：
+
+```javascript
+model.add(tf.layers.flatten());
+```
+
+最後，讓我們增加一個 [`dense`](https://js.tensorflow.org/api/latest/index.html#layers.dense) 層（又稱為全連接層），它會執行最後的分類。在 dense 層之前把卷積層和池層平整化輸出也是另外一個類神經網路中常見的模式：
+
+```javascript
+model.add(tf.layers.dense({
+  units: 10,
+  kernelInitializer: 'VarianceScaling',
+  activation: 'softmax'
+}));
+```
+
+讓我們詳細看一下丟進 `dense` 層裡的參數：
+- `units`：輸出激勵的大小。由於這是最後一層，而我們正在做一個 10 級別的分類任務（數字 0~9），我們在這裡用 10 單位。（有時候單位指的是*神經元*的數量，但我們避免使用這個術語。）
+- `kernelInitializer`：我們使用和卷積層一樣的 `VarianceScaling` 初始化方法
+- `activation`：分類任務的最後一層激勵方法通常會使用 [softmax](https://developers.google.com/machine-learning/glossary/#softmax)。它將我們的 10 維輸出正規化成機率分不，所以我們會有 10 個類別中每個類別的機率。
+
 ## 訓練模型
 
-## 定義優化器
+為了真正訓練模組，我們需要建構一個優化器並定義損失函數。我們還要定義評估指標來衡量我們的模型在資料上的表現。
 
-## 定義損失
+**註：**想要深入了解 TenslorFlow.js 中的優化器和損失函數，請閱讀 [Training First Steps](/tutorials/fit-curve.md)。
 
-## 定義評估指標
+### 定義優化器
 
-## 編譯模型
+在我們的卷積神經網路模型中，我們使用 [隨機梯度下降法（SGD）](https://developers.google.com/machine-learning/glossary/#SGD) 當作我們的優化器，學習率為 0.15。
 
-## 設置批次大小
+```
+const LEARNING_RATE = 0.15;
+const optimizer = tf.train.sgd(LEARNING_RATE);
+```
 
-## 撰寫訓練循環
+### 定義損失
+
+在我們的損失函數中，我們使用交叉熵（cross-entropy）（`categoricalCrossentropy`）。它通常用來優化分類任務。`categoricalCrossentropy` 衡量了我們模型裡最後一層產生出來的機率分佈和我們標籤中給定的機率分佈間的誤差，這個分佈在正確的標籤會是 1（%）。例如，以下是數字 7 給定的標籤和預測值的範例：
+
+|類別 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+|----------|---|---|---|---|---|---|---|---|---|---|
+|標籤 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
+|預測|.1 |.01|.01|.01|.20|.01|.01|.60|.03|.02|
+
+如果有高機率是 7，`categoricalCrossentropy` 會給出比較低的損失值；而如果有低機率是 7，它就會給出比較高的損失值。在訓練中，模組會更新內部的參數以最小化整個資料集裡的 `categoricalCrossentropy`。
+
+### 定義評估指標
+
+### 編譯模型
+
+### 設置批次大小
+
+### 撰寫訓練循環
 
 ## 察看結果！
 
