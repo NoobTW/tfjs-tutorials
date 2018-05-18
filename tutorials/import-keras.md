@@ -9,3 +9,12 @@ TensorFLow.js Layers 格式是一個目錄包含 `model.json` 文件以及一組
 轉換的過程需要 Python 的環境，而你可以使用 [pipenv](https://github.com/pypa/pipenv) 或 [virtualenv](https://virtualenv.pypa.io/en/stable/) 來保持一個獨立的環境。若要安裝轉換器，請使用`pip install tensorflow`。
 
 將 Keras 模型導入 TensorFlow.js 是一個兩步驟的程序，首先，將現有的 Keras 模型轉換成 TensorFlow.js Layers 格式，然後再將其加載到 TensorFlow.js 中
+
+## 步驟一：將現有的 Keras 模型轉換為 TF.js Layers 格式
+
+## 替代方案：利用 Python API 直接輸出成 TF.js Layers 格式
+
+## 步驟二：將模型加載到 Tensorflow.js 中
+
+## 支援的功能
+
