@@ -90,7 +90,7 @@ function loss(predictions, labels) {
 
 對於優化器，我們將使用 [隨機梯度下降法（SGD）](https://developers.google.com/machine-learning/crash-course/glossary#SGD)。隨機梯度下降法透過取得資料集中的隨機點的 [梯度](https://developers.google.com/machine-learning/crash-course/glossary#gradient)，並使用其值來增加或減少我們模組中的係數。
 
-TensorFlow.js 提供了一個方便方法來執行 SGD，所以您不需要擔心怎麼自己定義 SGD 中的所有數學操作。輸入一個期望的學習率，[`tf.train.sgd`](https://js.tensorflow.org/api/latest/index.html#train.sgd) 就會返回一個 `SGDOptimizer 物件，這個物件可以被用來優化損失函數的值。
+TensorFlow.js 提供了一個方便方法來執行 SGD，所以您不需要擔心怎麼自己定義 SGD 中的所有數學操作。輸入一個期望的學習率，[`tf.train.sgd`](https://js.tensorflow.org/api/latest/index.html#train.sgd) 就會返回一個 `SGDOptimizer` 物件，這個物件可以被用來優化損失函數的值。
 
 *學習率*控制了模型中改善預測的調整量。低學習率會導致整個學習過程跑得比較慢（訓練中必須使用更多的迭代次數來學習好的係數）；而高學習率會加快學習但會讓模型的結果在正確值附近擺盪、過度矯正。
 
