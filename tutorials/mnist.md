@@ -24,7 +24,7 @@ $ yarn watch
 
 在上面的專案中，[tfjs-examples/mnist](https://github.com/tensorflow/tfjs-examples/tree/master/mnist) 資料夾是完全獨立的，所以你可以複製它並開始自己的專案。
 
-**註：**這份教學和 [tfjs-examples/mnist-core](https://github.com/tensorflow/tfjs-examples/tree/master/mnist) 範例中的差別是我們在這裡使用了 TensorFlow.js 的高階 API（`Model`、`Layer`） 來建構模型；而 [mnist-core](https://github.com/tensorflow/tfjs-examples/tree/master/mnist) 使用低階的線性代數運算子來建立類神經網路。
+**註：** 這份教學和 [tfjs-examples/mnist-core](https://github.com/tensorflow/tfjs-examples/tree/master/mnist) 範例中的差別是我們在這裡使用了 TensorFlow.js 的高階 API（`Model`、`Layer`） 來建構模型；而 [mnist-core](https://github.com/tensorflow/tfjs-examples/tree/master/mnist) 使用低階的線性代數運算子來建立類神經網路。
 
 ## 資料
 
@@ -41,7 +41,7 @@ $ yarn watch
 - `nextTrainBatch(batchSize)`：從訓練集中回傳一批隨機圖像及其標籤
 - `nextTestBatch(batchSize)`：從測試集中回傳一批圖像及其標籤
 
-**註：**在訓練 MNIST 分類器時，隨機拿出資料非常重要，這樣模型訓練才不會因為我們提供的順序而受影響。例如我們先將所有 *1* 丟進去，在此訓練階段中可能學會很簡單的預測 1（因為這會最小化損失）。如果我們只餵 2 給模型，它可能會容易只預測出 2 而永遠不會是 1（因為這又會最小化損失）。我們的模型將無法學習對代表性的數字樣本作出準確的預測。
+**註：** 在訓練 MNIST 分類器時，隨機拿出資料非常重要，這樣模型訓練才不會因為我們提供的順序而受影響。例如我們先將所有 *1* 丟進去，在此訓練階段中可能學會很簡單的預測 1（因為這會最小化損失）。如果我們只餵 2 給模型，它可能會容易只預測出 2 而永遠不會是 1（因為這又會最小化損失）。我們的模型將無法學習對代表性的數字樣本作出準確的預測。
 
 ## 建立模型
 
@@ -55,7 +55,7 @@ const model = tf.sequential();
 
 現在我們已經建立了一個模型，讓我們在模型裡加上層。
 
-## 增加第一個層
+### 增加第一個層
 
 我們要增加的第一個層是一個二維卷積層。卷積在圖片上滑動率波來學習不同空間的變形（即圖片上的不同模型或物件將以相同的方式處理）。有關卷積的更多訊息，請看 [這篇文章](http://colah.github.io/posts/2014-07-Understanding-Convolutions/)。
 
@@ -81,7 +81,7 @@ model.add(tf.layers.conv2d({
 - `activation`：卷積完成後應用於資料的 [激勵函數](https://developers.google.com/machine-learning/glossary/#activation_function)。這裡我們使用 [整流線性單元（ReLU）](https://developers.google.com/machine-learning/glossary/#ReLU) 方法，這是機器學習模組中常見的激勵函數。
 - `kernelInitializer`：用於初始化模型權重的方法，它對於訓練動態非常重要。我們在這裡不會詳細介紹初始化，但這裡使用的 `VarianceScaling` 是一般來說很棒的初始器選擇。
 
-## 增加第二層
+### 增加第二層
 
 讓我們在模型中增加第二個層：一個最大池化層。我們會使用 [`tf.layers.maxPooling2d`](https://js.tensorflow.org/api/latest/index.html#layers.maxPooling2d)。該層會透過計算每個滑動窗口的最大值來縮減卷積結果（又稱為激勵）：
 
@@ -97,9 +97,9 @@ model.add(tf.layers.maxPooling2d({
 - `poolSize`：設定輸入資料的滑動窗口大小。在這邊我們設 `poolSize` 為 `[2, 2]`，表示池化層將用 2x2 的窗口套用在輸入資料上。
 - `strides`：滑動窗口的「步數」。即每次在圖案上移動時該移動多少像素。在這裡我們使用 `[2, 2]`，表示每次篩選器都會在圖片上以 2 像素為單位垂直和水平移動。
 
-**註：**由於 `poolSize` 和 `strides` 都是 2x2，池窗口將會完全不重疊。這代表池化層會將前一層的激活大小減半。
+**註：** 由於 `poolSize` 和 `strides` 都是 2x2，池窗口將會完全不重疊。這代表池化層會將前一層的激活大小減半。
 
-## 增加剩餘層
+### 增加剩餘層
 
 重複層結構是神經網路中常見的模式。讓我們在模型裡再增加第二個卷積層，然後再增加一個池化層。注意我們的第二個卷積層裡，我們把過濾器的數量從 8 調到 16。另外還要注意我們沒有特別指定 `inputShape`，因為它可以從上一層的輸出自己推裡出來：
 
@@ -143,7 +143,7 @@ model.add(tf.layers.dense({
 
 為了真正訓練模組，我們需要建構一個優化器並定義損失函數。我們還要定義評估指標來衡量我們的模型在資料上的表現。
 
-**註：**想要深入了解 TenslorFlow.js 中的優化器和損失函數，請閱讀 [Training First Steps](/tutorials/fit-curve.md)。
+**註：** 想要深入了解 TenslorFlow.js 中的優化器和損失函數，請閱讀 [Training First Steps](/tutorials/fit-curve.md)。
 
 ### 定義優化器
 
@@ -197,7 +197,7 @@ const TEST_BATCH_SIZE = 1000;
 const TEST_ITERATION_FREQUENCY = 5;
 ```
 
-**關於有關分批和批次大小**
+#### 關於有關分批和批次大小
 
 為了充分利用 GPU 並行計算的能力，我們想要將多個批次一起輸入網路並使用簡單的前饋修正。
 
@@ -207,7 +207,7 @@ const TEST_ITERATION_FREQUENCY = 5;
 
 如前面所討論的，我們 MNIST 資料集中的每個單一圖片維度為 `[28, 28, 1]`。當我們將 `BATCH_SIZE` 設為 64 時，表示我們一次批次處理 64 個圖片，也就是說我們資料的實際形狀是 `64, 28, 28, 1`。（批次永遠是最外面的維度）
 
-**註：**回想我們第一次在 `conv2d` 設定的 `inputShape` 沒有指定批次大小（64）。這些參數裡的批次大小被寫成不可知的，所以他們可以接受任意大小的批次。
+**註：** 回想我們第一次在 `conv2d` 設定的 `inputShape` 沒有指定批次大小（64）。這些參數裡的批次大小被寫成不可知的，所以他們可以接受任意大小的批次。
 
 ### 撰寫訓練循環
 
@@ -264,7 +264,7 @@ if (i % TEST_ITERATION_FREQUENCY === 0) {
 
 `model.fit` 即是我們訓練模組且實際更新參數的地方
 
-**註：＊＊在整個資料集上呼叫 `model.fit()` 會導致整個資料集上傳到 GPU，甚至凍結整個應用程式。為了避免一次丟太多資料到 GPU，我們建議在 `for` 迴圈裡呼叫 `model.fit()`，每次只傳遞一批資料。如下所示：
+**註：** 在整個資料集上呼叫 `model.fit()` 會導致整個資料集上傳到 GPU，甚至凍結整個應用程式。為了避免一次丟太多資料到 GPU，我們建議在 `for` 迴圈裡呼叫 `model.fit()`，每次只傳遞一批資料。如下所示：
 
 ```javascript
 // 整個資料集並沒有被載入記憶體裡，所以我們重複呼叫這些批次
