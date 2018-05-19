@@ -12,7 +12,30 @@ TensorFLow.js Layers 格式是一個目錄包含 `model.json` 文件以及一組
 
 ## 步驟一：將現有的 Keras 模型轉換為 TF.js Layers 格式
 
+Keras 模型通常通過 `model.save(filepath)` 生成一個包含拓樸模型和權重的單一 HDF5（.h5）文件來儲存。若要將這樣的文件轉換成 TF.js Layers 格式，執行以下指令，其中 `path/to/my_model.h5` 是 Keras.h5 文件存取的路徑，而 `path/to/tfjs_target_dir` 是 TF.js 輸出所存放的目錄：
+```
+# bath 
+
+tensorflowjs_converter --input_format keras \
+                       path/to/my_model.h5 \
+                       path/to/tfjs_target_dir
+```
+
 ## 替代方案：利用 Python API 直接輸出成 TF.js Layers 格式
+
+如果你在 Python 中使用 Keras 模型，可以利用以下指令直接輸出成 Tensorflow.js Layers 格式：
+```
+# Python
+
+import tensorflowjs as tfjs
+
+def train(...):
+    model = keras.models.Sequential()   # for example
+    ...
+    model.compile(...)
+    model.fit(...)
+    tfjs.converters.save_keras_model(model, tfjs_target_dir)
+```
 
 ## 步驟二：將模型加載到 Tensorflow.js 中
 
