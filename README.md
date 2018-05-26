@@ -24,6 +24,10 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 這份教學介紹如何把現有的 Keras 模組轉換到瀏覽器中使用。
 
+### [儲存和載入 tf.Model](/tutorials/model-save-load.md)
+
+這份教學解釋了如何儲存 `tf.Model` 到瀏覽器的 Local Storage 等不同位置，並載入回來。
+
 ### [如何將 TensorFlow SavedModel 導入 TensorFlow.js](https://github.com/tensorflow/tfjs-converter)
 
 **Developer Preview**：這份教學介紹如何把現有的 TensorFlow SavedModel 轉換到瀏覽器中使用。
