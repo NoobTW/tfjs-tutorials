@@ -8,7 +8,7 @@
 
 ## 執行程式碼
 
-這份教學重點在使用 TensorFlow.js 建立模組並學習其係數的程式碼。本教學的完整程式碼（包括產生數據和圖表的程式碼）可以在 [這裡](https://github.com/tensorflow/tfjs-examples/tree/master/polynomial-regression-core) 找到。
+這份教學重點在使用 TensorFlow.js 建立模型並學習其係數的程式碼。本教學的完整程式碼（包括產生數據和圖表的程式碼）可以在 [這裡](https://github.com/tensorflow/tfjs-examples/tree/master/polynomial-regression-core) 找到。
 
 你可以執行以下指令，在本機執行程式碼：
 
@@ -64,9 +64,9 @@ function predict(x) {
 
 ![三次函數不適合圖上的數據，在 x=-1.0 到 x=0 的時候太高；在 x=0.2 到 x=1.0 時圖形向上、原始數據向下。](/images/fit_curve_random.png)
 
-## 第三步：訓練模組
+## 第三步：訓練模型
 
-我們的最後一步是訓練模組並學習良好的係數。為了訓練我們的模組，我們需要定義三個東西：
+我們的最後一步是訓練模型並學習良好的係數。為了訓練我們的模型，我們需要定義三個東西：
 
 - 損失函數（Loss function）：用於衡量給定多項式和數據的吻合程度。損失值越低，多項是越吻合數據。
 - 優化器（Optimizer）：根據損失函數的輸出執行係數修正的算法。優化器的目標是讓損失函數的輸出值最小。
@@ -88,7 +88,7 @@ function loss(predictions, labels) {
 
 ### 定義優化器
 
-對於優化器，我們將使用 [隨機梯度下降法（SGD）](https://developers.google.com/machine-learning/crash-course/glossary#SGD)。隨機梯度下降法透過取得資料集中的隨機點的 [梯度](https://developers.google.com/machine-learning/crash-course/glossary#gradient)，並使用其值來增加或減少我們模組中的係數。
+對於優化器，我們將使用 [隨機梯度下降法（SGD）](https://developers.google.com/machine-learning/crash-course/glossary#SGD)。隨機梯度下降法透過取得資料集中的隨機點的 [梯度](https://developers.google.com/machine-learning/crash-course/glossary#gradient)，並使用其值來增加或減少我們模型中的係數。
 
 TensorFlow.js 提供了一個方便方法來執行 SGD，所以您不需要擔心怎麼自己定義 SGD 中的所有數學操作。輸入一個期望的學習率，[`tf.train.sgd`](https://js.tensorflow.org/api/latest/index.html#train.sgd) 就會返回一個 `SGDOptimizer` 物件，這個物件可以被用來優化損失函數的值。
 

@@ -1,14 +1,14 @@
 # 儲存和載入 tf.Model
 
-這份教學描述了 TensorFlow.js 如何儲存並載入模組。儲存和載入模組是一件重要的事情，例如你要怎麼把一個已經被瀏覽器上才能取得的資料（如感測器上的影像、聲音資料）訓練好參數的模組存下來，以供這位使用者下次再瀏覽這個頁面時看到的是已經訓練好的模組？另外也想想層 API 讓你可以在瀏覽器上從頭開始訓練模組（[tf.Model](https://js.tensorflow.org/api/latest/#class:Model)），但怎麼把這個模組存起來？這些問題就得靠儲存和載入 API——從 TensorFlow.js 0.11.1 開始支援的兩個 API。
+這份教學描述了 TensorFlow.js 如何儲存並載入模型。儲存和載入模型是一件重要的事情，例如你要怎麼把一個已經被瀏覽器上才能取得的資料（如感測器上的影像、聲音資料）訓練好參數的模型存下來，以供這位使用者下次再瀏覽這個頁面時看到的是已經訓練好的模型？另外也想想層 API 讓你可以在瀏覽器上從頭開始訓練模型（[tf.Model](https://js.tensorflow.org/api/latest/#class:Model)），但怎麼把這個模型存起來？這些問題就得靠儲存和載入 API——從 TensorFlow.js 0.11.1 開始支援的兩個 API。
 
-> 註：這份文件是關於怎麼儲存和載入 `tf.Model`（即 tfjs-layers API 裡的 Keras-style 模組）。儲存和載入 `tf.FrozenModel`（即 TensorFlow SavedModels 載入的模組）目前並不支援，但正在努力讓它支援。
+> 註：這份文件是關於怎麼儲存和載入 `tf.Model`（即 tfjs-layers API 裡的 Keras-style 模型）。儲存和載入 `tf.FrozenModel`（即 TensorFlow SavedModels 載入的模型）目前並不支援，但正在努力讓它支援。
 
 ## 儲存 tf.Model
 
 讓我們先從最簡單、最不麻煩的方式來儲存一個 `tf.Model`：存到瀏覽器裡的 Local Storage。Local Storage 是一個標準的客戶端（client-side）儲存空間。在同一個頁面中，資料會被保存以供下次讀取使用。你可以在 [MDN page](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 學到更多有關 Local Storage。
 
-假設你有個 `tf.Model` 物件叫做 `model`，而他是從頭開始以層 API 或從已訓練好的 Keras 模組載入的話，你可以用這一行程式碼把它存到 Local Storage 裡：
+假設你有個 `tf.Model` 物件叫做 `model`，而他是從頭開始以層 API 或從已訓練好的 Keras 模型載入的話，你可以用這一行程式碼把它存到 Local Storage 裡：
 
 ```javascript
 const saveResult = await model.save('localstorage://my-model-1');
@@ -16,13 +16,13 @@ const saveResult = await model.save('localstorage://my-model-1');
 
 一些值得指出的事情：
 
-- `save` 方法需要一個類似 URL 的字串，它以 **scheme** 開頭。在這個範例中我們使用 `localstorage://` 這個 scheme 來表示這個模組是要被存到 Local Storage 的。
-- Scheme 後面會跟著**路徑**。假設是存到 Local Storage 的話，路徑只需要是一個簡單字串，可以唯一識別欲儲存模組即可，供之後使用，例如當你需要載入模組的時候。
+- `save` 方法需要一個類似 URL 的字串，它以 **scheme** 開頭。在這個範例中我們使用 `localstorage://` 這個 scheme 來表示這個模型是要被存到 Local Storage 的。
+- Scheme 後面會跟著**路徑**。假設是存到 Local Storage 的話，路徑只需要是一個簡單字串，可以唯一識別欲儲存模型即可，供之後使用，例如當你需要載入模型的時候。
 - `save` 方法是非同步的，所以如果它是執行其他步驟的先決條件，你需要使用 `then` 或 `await`。
-- `model.save` 的回傳值是個帶有一些潛在重要資訊的 JSON 物件，例如模組拓墣和模組參數的位元組大小。
+- `model.save` 的回傳值是個帶有一些潛在重要資訊的 JSON 物件，例如模型拓墣和模型參數的位元組大小。
 - 任何 `tf.Model`，不管是不是以 [tf.sequential](https://js.tensorflow.org/api/latest/#sequential) 建構而成或裡面包含什麼層，都可以用這個方式儲存。
 
-下面的表格列出了儲存模組支援的所有儲存位置、 scheme 及範例。
+下面的表格列出了儲存模型支援的所有儲存位置、 scheme 及範例。
 
 儲存位置 | Scheme 字串 | 範例程式碼
 -----|------|-----
@@ -41,12 +41,12 @@ HTTP 請求 | `http://` 或 `https://` | `await model.save('http://model-server.
 
 `downloads://` 後面跟的字串是檔案下載時的檔名前綴。例如 `model.save('downloads://my-model-1')` 會讓瀏覽器下載包含同樣前綴的兩個檔案：
 
-1. 一個名為 `my-model-1.json` 的文字 JSON 檔案，裡面包含 `modelTopology`（模組的拓墣）和 `weightsManifest`（權重的表示）兩個欄位。
+1. 一個名為 `my-model-1.json` 的文字 JSON 檔案，裡面包含 `modelTopology`（模型的拓墣）和 `weightsManifest`（權重的表示）兩個欄位。
 2. 一個包含權重值的二進位檔案 `my-model-1.weights.bin`。
 
 註：某些瀏覽器需要先獲得使用者的允許，才能一次下載兩個檔案。
 
-這兩個檔案的格式和透過 [tensorflowjs 轉換器](https://pypi.org/project/tensorflowjs/) 從 Keras HDF5 轉換過來的檔案格式相同。權重存在一個檔案，而不是被切割存放在 4-MB 的檔案。你可以把這些檔案轉成 HDF5，讓 Keras 可以把它當作 Keras 模組直接使用或讀取，例如：
+這兩個檔案的格式和透過 [tensorflowjs 轉換器](https://pypi.org/project/tensorflowjs/) 從 Keras HDF5 轉換過來的檔案格式相同。權重存在一個檔案，而不是被切割存放在 4-MB 的檔案。你可以把這些檔案轉成 HDF5，讓 Keras 可以把它當作 Keras 模型直接使用或讀取，例如：
 
 ```Bash
 # 假設你已經下載 `my-model-1.json`, 和一個權重檔案。
@@ -60,7 +60,7 @@ tensorflowjs_converter \
 
 ### HTTP 請求
 
-如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模組的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。[這份文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
+如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模型的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。[這份文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
 
 通常，你的 HTTP 伺服器對於請求有特殊的限制和需求，像是 HTTP 方法、表頭和認證用的憑證資訊。你可以透過將 `save` 方法中的 URL 字串換成呼叫 `tf.io.browserHTTPRequest` 對請求的這些方面做細部的控制，這是個比較冗長的 API，但可以在 `save` 提出 HTTP 請求時保持較高的靈活性。例如：
 
@@ -72,7 +72,7 @@ await model.save(tf.io.browserHTTPRequest(
 
 ## 載入 tf.Model
 
-如果模組不能被讀取，儲存 `tf.Model` 就沒有意義了。透過呼叫 `tf.loadModel`，並傳入一個含有 scheme 的像是的 URL 字串，就能載入模組。大多數的情況這些 URL 字串和 `tf.Model.save` 使用的字串是對稱的，下表總結了目前支持的路由：
+如果模型不能被讀取，儲存 `tf.Model` 就沒有意義了。透過呼叫 `tf.loadModel`，並傳入一個含有 scheme 的像是的 URL 字串，就能載入模型。大多數的情況這些 URL 字串和 `tf.Model.save` 使用的字串是對稱的，下表總結了目前支持的路由：
 
 儲存位置 | Scheme 字串 | 範例程式碼
 -----|------|-----
@@ -83,7 +83,7 @@ HTTP 請求 | `http://` 或 `https://` | `await tf.loadModel('http://model-serve
 
 在所有載入路由中，如果成功的話，`tf.loadModel` 回傳一個（以 `Promise` 包裝的）`tf.Model` 物件；如果失敗的話，回傳一個 `Error`。
 
-從 Local Storage 或 IndexedDB 載入模組和儲存的方法完全一樣；然而，從使用者上傳的檔案讀取就不完全相同。深入來說，使用者上傳的檔案並不是一個像是 URL 的字串，而是一個包含檔案（[File](https://developer.mozilla.org/en-US/docs/Web/API/File)）物件的陣列（`Array`）。一般來說，工作流程是透過 HTML 檔案上傳（[file input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file)）元素讓使用者選取本機檔案，例如：
+從 Local Storage 或 IndexedDB 載入模型和儲存的方法完全一樣；然而，從使用者上傳的檔案讀取就不完全相同。深入來說，使用者上傳的檔案並不是一個像是 URL 的字串，而是一個包含檔案（[File](https://developer.mozilla.org/en-US/docs/Web/API/File)）物件的陣列（`Array`）。一般來說，工作流程是透過 HTML 檔案上傳（[file input](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file)）元素讓使用者選取本機檔案，例如：
 
 ```html
 <input name="json-upload" type="file" />
@@ -100,30 +100,30 @@ const model = await tf.loadModel(
     tf.io.browserFiles([jsonUpload.files[0], weightsUpload.files[0]]));
 ```
 
-從 HTTP 載入一個模組也和透過 HTTP 請求儲存時差不多一樣。特別是，`tf.loadModel` 接受 model.json 檔案的 URL 或路徑，像是上面表格中的範例。這個 API 從第一次釋出 TensorFlow.js 就存在了。
+從 HTTP 載入一個模型也和透過 HTTP 請求儲存時差不多一樣。特別是，`tf.loadModel` 接受 model.json 檔案的 URL 或路徑，像是上面表格中的範例。這個 API 從第一次釋出 TensorFlow.js 就存在了。
 
-## 管理存在客戶端的模組
+## 管理存在客戶端的模型
 
-像你在上面所學的，你可以把 `tf.Model` 的拓墣和權重存在客戶端的瀏覽器儲存空間，包含 Local Storage 和 IndexedDB，只要透過像是 `model.save('localstorage://my-model')` 和 `model.save('indexeddb://my-model')` 就可以了。不過你要怎麼找出到目前為止有哪些模組已經被儲存？這可以透過 `tf.io` 這個 API 裡面的模組管理方法來完成：
+像你在上面所學的，你可以把 `tf.Model` 的拓墣和權重存在客戶端的瀏覽器儲存空間，包含 Local Storage 和 IndexedDB，只要透過像是 `model.save('localstorage://my-model')` 和 `model.save('indexeddb://my-model')` 就可以了。不過你要怎麼找出到目前為止有哪些模型已經被儲存？這可以透過 `tf.io` 這個 API 裡面的模型管理方法來完成：
 
 ```javascript
-// 列出 Local Storage 裡的模組
+// 列出 Local Storage 裡的模型
 console.log(await tf.io.listModels());
 ```
 
-`listModels` 方法的回傳值不只包含儲存模組的路徑，還包含了一些關於模組的元資料，像是模組拓墣和模組參數的位元組大小。
+`listModels` 方法的回傳值不只包含儲存模型的路徑，還包含了一些關於模型的元資料，像是模型拓墣和模型參數的位元組大小。
 
-這個管理 API 同時也可以讓你複製、移動或刪除現有模組，例如：
+這個管理 API 同時也可以讓你複製、移動或刪除現有模型，例如：
 
 ```javascript
-// 將現有的模組複製到新的位置。
+// 將現有的模型複製到新的位置。
 // 在 Local Storage 和 IndexedDB 之間複製是支援的。
 tf.io.copyModel('localstorage://my-model', 'indexeddb://cloned-model');
 
-// 將模組移動到別的位置。
+// 將模型移動到別的位置。
 // 在 Local Storage 和 IndexedDB 之間移動是支援的。
 tf.io.moveModel('localstorage://my-model', 'indexeddb://cloned-model');
 
-// 移除模組。
+// 移除模型。
 tf.io.removeModel('indexeddb://cloned-model');
 ```

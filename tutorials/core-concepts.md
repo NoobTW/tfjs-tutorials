@@ -1,8 +1,8 @@
 # TensorFlow.js 的核心概念
 
-**TensorFlow.js** 是一個開源、WebGL 加速的 JavaScript 機器學習套件。它將高性能的機器學習模組帶到你的指尖、讓你在瀏覽器上訓練類神經網路或在推理模式下使用預先訓練好的模型。閱讀 [Getting Started](#) 來了解如何安裝／設定 TensorFlow.js
+**TensorFlow.js** 是一個開源、WebGL 加速的 JavaScript 機器學習套件。它將高性能的機器學習模型帶到你的指尖、讓你在瀏覽器上訓練類神經網路或在推理模式下使用預先訓練好的模型。閱讀 [Getting Started](#) 來了解如何安裝／設定 TensorFlow.js
 
-TensorFlow.js 提供機器學習的低階模組以及以 Keras 為靈感的高階 API 來建立神經網路。讓我們一起看套件裡的核心元件。
+TensorFlow.js 提供機器學習的低階模型以及以 Keras 為靈感的高階 API 來建立神經網路。讓我們一起看套件裡的核心元件。
 
 ## 張量
 
@@ -62,7 +62,7 @@ biases.assign(updatedValues); // 更改偏差的值
 biases.print(); // 輸出： [0, 1, 0, 1, 0]
 ```
 
-變數主要用來儲存並在訓練模組是更新數值。
+變數主要用來儲存並在訓練模型是更新數值。
 
 ## 運算子
 
@@ -103,11 +103,11 @@ sq_sum.print();
 const sq_sum = tf.square(tf.add(e, f));
 ```
 
-## 模組與層
+## 模型與層
 
-概念上，模組（Model）是一個給定輸入就會產生預期輸出的方法。
+概念上，模型（Model）是一個給定輸入就會產生預期輸出的方法。
 
-在 TensorFlow.js 中有*兩個*建立模組的方法，你可以*直接使用運算子*來代表模組運作的方法，例如：
+在 TensorFlow.js 中有*兩個*建立模型的方法，你可以*直接使用運算子*來代表模型運作的方法，例如：
 
 ```javascript
 // 定義函數
@@ -135,7 +135,7 @@ const result = predict(2);
 result.print() // 輸出：24
 ```
 
-你也可以用深度學習中比較熱門的方法：透過高階 API `[tf.model](https://js.tensorflow.org/api/latest/index.html#model)` 用*層*建構模型。下面這段程式碼建構了一個 `[tf.sequential](https://js.tensorflow.org/api/latest/index.html#sequential)` 的模組：
+你也可以用深度學習中比較熱門的方法：透過高階 API `[tf.model](https://js.tensorflow.org/api/latest/index.html#model)` 用*層*建構模型。下面這段程式碼建構了一個 `[tf.sequential](https://js.tensorflow.org/api/latest/index.html#sequential)` 的模型：
 
 ```javascript
 const model = tf.sequential();
@@ -196,7 +196,7 @@ average.print() // 輸出： 3.5
 #### 兩件重要的事情
 
 - 丟進 `tf.tidy` 的方法應該要是同步的且不能返回一個 Promise。我們建議不要把更新 UI 或遠端請求的程式碼放進 `tf.tidy`。
-- `tf.tidy` 不會清理變數。變數通常持續到整個生命週期或機器學習模組，所以就算變數被放進 `tf.tidy`，TensorFlow.js 也不會清理它們；然而你可以手動呼叫 `dispose`。
+- `tf.tidy` 不會清理變數。變數通常持續到整個生命週期或機器學習模型，所以就算變數被放進 `tf.tidy`，TensorFlow.js 也不會清理它們；然而你可以手動呼叫 `dispose`。
 
 # 其他資源
 

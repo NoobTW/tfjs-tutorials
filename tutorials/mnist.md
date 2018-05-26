@@ -78,7 +78,7 @@ model.add(tf.layers.conv2d({
 - `kernelSize`：要用於資料的滑動卷積過濾器的窗口大小。在這裡我們設置一個 `5` 的 `kernelSize`，指定一個 5x5 的卷積窗口。
 - `filters`：大小為 `kernelSize` 的過濾器窗口的數量，以應用於輸入資料。在這裡我們對資料用 8 個過濾器。
 - `strides`：滑動窗口的「步數」。即每次在圖案上移動時該移動多少像素。我們在這裡使用 1 代表過濾器每次將滑動 1 個像素為單位。
-- `activation`：卷積完成後應用於資料的 [激勵函數](https://developers.google.com/machine-learning/glossary/#activation_function)。這裡我們使用 [整流線性單元（ReLU）](https://developers.google.com/machine-learning/glossary/#ReLU) 方法，這是機器學習模組中常見的激勵函數。
+- `activation`：卷積完成後應用於資料的 [激勵函數](https://developers.google.com/machine-learning/glossary/#activation_function)。這裡我們使用 [整流線性單元（ReLU）](https://developers.google.com/machine-learning/glossary/#ReLU) 方法，這是機器學習模型中常見的激勵函數。
 - `kernelInitializer`：用於初始化模型權重的方法，它對於訓練動態非常重要。我們在這裡不會詳細介紹初始化，但這裡使用的 `VarianceScaling` 是一般來說很棒的初始器選擇。
 
 ### 增加第二層
@@ -141,7 +141,7 @@ model.add(tf.layers.dense({
 
 ## 訓練模型
 
-為了真正訓練模組，我們需要建構一個優化器並定義損失函數。我們還要定義評估指標來衡量我們的模型在資料上的表現。
+為了真正訓練模型，我們需要建構一個優化器並定義損失函數。我們還要定義評估指標來衡量我們的模型在資料上的表現。
 
 **註：** 想要深入了解 TenslorFlow.js 中的優化器和損失函數，請閱讀 [Training First Steps](/tutorials/fit-curve.md)。
 
@@ -163,7 +163,7 @@ const optimizer = tf.train.sgd(LEARNING_RATE);
 |標籤 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 1 | 0 | 0 |
 |預測|.1 |.01|.01|.01|.20|.01|.01|.60|.03|.02|
 
-如果有高機率是 7，`categoricalCrossentropy` 會給出比較低的損失值；而如果有低機率是 7，它就會給出比較高的損失值。在訓練中，模組會更新內部的參數以最小化整個資料集裡的 `categoricalCrossentropy`。
+如果有高機率是 7，`categoricalCrossentropy` 會給出比較低的損失值；而如果有低機率是 7，它就會給出比較高的損失值。在訓練中，模型會更新內部的參數以最小化整個資料集裡的 `categoricalCrossentropy`。
 
 ### 定義評估指標
 
@@ -171,7 +171,7 @@ const optimizer = tf.train.sgd(LEARNING_RATE);
 
 ### 編譯模型
 
-為了編譯模組，我們傳一個參數物件給我們的模組，物件裡包含優化器、損失函數和一份評估指標（在這裡我們只使用 `accuracy`）：
+為了編譯模型，我們傳一個參數物件給我們的模型，物件裡包含優化器、損失函數和一份評估指標（在這裡我們只使用 `accuracy`）：
 
 ```javascript
 model.compile({
@@ -186,9 +186,9 @@ model.compile({
 在開始訓練之前，我們需要再定義一些有關批次大小的參數：
 
 ```javascript
-// 模組進行參數更新時應該要「看」幾個範例
+// 模型進行參數更新時應該要「看」幾個範例
 const BATCH_SIZE = 64;
-// 要用幾個批次訓練模組
+// 要用幾個批次訓練模型
 const TRAIN_BATCHES = 100;
 
 // 每 TEST_ITERATION_FREQUENCY 個批次，就檢查 TEST_BATCH_SIZE 的準確性
@@ -250,7 +250,7 @@ for (let i = 0; i < TRAIN_BATCHES; i++) {
 const batch = data.nextTrainBatch(BATCH_SIZE);
 ```
 
-每 5 步（`TEST_ITERATION_FREQUENCY`），我們就建立一個 `validationData`——一個有兩個元素，包含測試資料集裡的一批 MNIST 資料的陣列和他們的對應標籤。我們將會使用這些資料來評估這個模組的準確性：
+每 5 步（`TEST_ITERATION_FREQUENCY`），我們就建立一個 `validationData`——一個有兩個元素，包含測試資料集裡的一批 MNIST 資料的陣列和他們的對應標籤。我們將會使用這些資料來評估這個模型的準確性：
 
 ```javascript
 if (i % TEST_ITERATION_FREQUENCY === 0) {
@@ -262,7 +262,7 @@ if (i % TEST_ITERATION_FREQUENCY === 0) {
 }
 ```
 
-`model.fit` 即是我們訓練模組且實際更新參數的地方
+`model.fit` 即是我們訓練模型且實際更新參數的地方
 
 **註：** 在整個資料集上呼叫 `model.fit()` 會導致整個資料集上傳到 GPU，甚至凍結整個應用程式。為了避免一次丟太多資料到 GPU，我們建議在 `for` 迴圈裡呼叫 `model.fit()`，每次只傳遞一批資料。如下所示：
 
@@ -275,7 +275,7 @@ if (i % TEST_ITERATION_FREQUENCY === 0) {
 
 接著再讓我們仔細看看這些參數：
 
-- `x`：我們的圖片資料。記得我們是批次傳遞範例，所以我們必須告訴 `fit` 方法這批次有多大。`MnistData.nextTrainBatch` 回傳圖片及形狀 `[BATCH_SIZE, 784]`——所有影像資料都是長度為 784（28*28）的一維向量。然而我們的模組預期的是形狀為 `[BATCH_SIZE, 28, 28, 1]` 的形狀，所以我們必須重新變形（[`reshape`](https://js.tensorflow.org/api/latest/index.html#reshape)）。
+- `x`：我們的圖片資料。記得我們是批次傳遞範例，所以我們必須告訴 `fit` 方法這批次有多大。`MnistData.nextTrainBatch` 回傳圖片及形狀 `[BATCH_SIZE, 784]`——所有影像資料都是長度為 784（28*28）的一維向量。然而我們的模型預期的是形狀為 `[BATCH_SIZE, 28, 28, 1]` 的形狀，所以我們必須重新變形（[`reshape`](https://js.tensorflow.org/api/latest/index.html#reshape)）。
 - `y`：我們的標籤，也就是每個圖片的實際數字分類。
 - `batchSize`：每次丟進去訓練的批次有幾張圖。稍早我們把 `BATCH_SIZE` 設成 64 了。
 - `validationData`：表示每 `TEST_ITERATION_FREQUENCY` 次迭代就進行一次驗證（此處是 5），這些資料的形狀為 `[TEST_BATCH_SIZE, 28, 28, 1]`。稍早我們已將 `TEST_BATCH_SIZE` 設為 1000，我們的評估指標（準確性）就會用這樣子的資料集大小。

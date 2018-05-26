@@ -6,7 +6,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 ### [TensorFlow.js 的核心概念](/tutorials/core-concepts.md)
 
-學習 TensorFlow.js 中的核心概念：張量、運算子、模組、層，以及訓練，並學習一些有用的記憶體管理方法，以及如何寫出簡潔（tidy）的程式碼。
+學習 TensorFlow.js 中的核心概念：張量、運算子、模型、層，以及訓練，並學習一些有用的記憶體管理方法，以及如何寫出簡潔（tidy）的程式碼。
 
 ### [訓練的第一步：從合成數劇中訓練曲線](/tutorials/fit-curve.md)
 
@@ -22,7 +22,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 ### [如何將 Keras 模型導入 TensorFlow.js](/tutorials/import-keras.md)
 
-這份教學介紹如何把現有的 Keras 模組轉換到瀏覽器中使用。
+這份教學介紹如何把現有的 Keras 模型轉換到瀏覽器中使用。
 
 ### [儲存和載入 tf.Model](/tutorials/model-save-load.md)
 

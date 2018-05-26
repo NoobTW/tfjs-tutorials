@@ -1,6 +1,6 @@
-# 如何將 Keras 模組導入 TensorFlow.js
+# 如何將 Keras 模型導入 TensorFlow.js
 
-Keras 模組（通常透過 Python API 建立）的多種格式可以壓縮成一檔案儲存，而「整個模型」的格式可以轉換成 TensorFlow.js Layers 格式，並且可以直接加載到 TensorFlow.js 中進行推測或進一步的訓練。
+Keras 模型（通常透過 Python API 建立）的多種格式可以壓縮成一檔案儲存，而「整個模型」的格式可以轉換成 TensorFlow.js Layers 格式，並且可以直接加載到 TensorFlow.js 中進行推測或進一步的訓練。
 
 TensorFLow.js Layers 格式是一個目錄包含 `model.json` 檔案以及一組二進位制碎片式權重的檔案，而 `model.json` 文件包含拓樸（Topology）模型（又名「結構」、「圖形」：描述各圖層以及它們如何連接）及權重檔案的清單。
 
