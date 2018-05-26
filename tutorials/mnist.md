@@ -75,8 +75,8 @@ model.add(tf.layers.conv2d({
 讓我們來看看物件裡的每個參數：
 
 - `inputShape`：流入模型第一層的資料的形狀。在這個範例中，我們的 MNIST 範例是 28x28 像素的黑白圖片。圖片資料的規範格式是 `[row, column, depth]`，所以我們在這裡想要為每個維度的像素數配置 `[28, 28, 1]`── 28 個行和列作為每一個維度的像素，而深度用 1 是因為我們只有一種顏色。
-- `kernelSize`：要用於資料的滑動卷積濾波器的窗口大小。在這裡我們設置一個 `5` 的 `kernelSize`，指定一個 5x5 的卷積窗口。
-- `filters`：大小為 `kernelSize` 的篩選器窗口的數量，以應用於輸入資料。在這裡我們對資料用 8 個過濾器。
+- `kernelSize`：要用於資料的滑動卷積過濾器的窗口大小。在這裡我們設置一個 `5` 的 `kernelSize`，指定一個 5x5 的卷積窗口。
+- `filters`：大小為 `kernelSize` 的過濾器窗口的數量，以應用於輸入資料。在這裡我們對資料用 8 個過濾器。
 - `strides`：滑動窗口的「步數」。即每次在圖案上移動時該移動多少像素。我們在這裡使用 1 代表過濾器每次將滑動 1 個像素為單位。
 - `activation`：卷積完成後應用於資料的 [激勵函數](https://developers.google.com/machine-learning/glossary/#activation_function)。這裡我們使用 [整流線性單元（ReLU）](https://developers.google.com/machine-learning/glossary/#ReLU) 方法，這是機器學習模組中常見的激勵函數。
 - `kernelInitializer`：用於初始化模型權重的方法，它對於訓練動態非常重要。我們在這裡不會詳細介紹初始化，但這裡使用的 `VarianceScaling` 是一般來說很棒的初始器選擇。
@@ -95,7 +95,7 @@ model.add(tf.layers.maxPooling2d({
 我們來看一下這些參數：
 
 - `poolSize`：設定輸入資料的滑動窗口大小。在這邊我們設 `poolSize` 為 `[2, 2]`，表示池化層將用 2x2 的窗口套用在輸入資料上。
-- `strides`：滑動窗口的「步數」。即每次在圖案上移動時該移動多少像素。在這裡我們使用 `[2, 2]`，表示每次篩選器都會在圖片上以 2 像素為單位垂直和水平移動。
+- `strides`：滑動窗口的「步數」。即每次在圖案上移動時該移動多少像素。在這裡我們使用 `[2, 2]`，表示每次過濾器都會在圖片上以 2 像素為單位垂直和水平移動。
 
 **註：** 由於 `poolSize` 和 `strides` 都是 2x2，池窗口將會完全不重疊。這代表池化層會將前一層的激活大小減半。
 
