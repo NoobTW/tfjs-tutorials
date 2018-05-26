@@ -41,7 +41,7 @@ HTTP 請求 | `http://` 或 `https://` | `await model.save('http://model-server.
 
 `downloads://` 後面跟的字串是檔案下載時的檔名前綴。例如 `model.save('downloads://my-model-1')` 會讓瀏覽器下載包含同樣前綴的兩個檔案：
 
-1. 一個名為 `my-model-1.json` 的文字 JSON 檔案，裡面包含 `modelTopology`（模組的拓墣）和`weightsManifest`（權重的表示）兩個欄位。
+1. 一個名為 `my-model-1.json` 的文字 JSON 檔案，裡面包含 `modelTopology`（模組的拓墣）和 `weightsManifest`（權重的表示）兩個欄位。
 2. 一個包含權重值的二進位檔案 `my-model-1.weights.bin`。
 
 註：某些瀏覽器需要先獲得使用者的允許，才能一次下載兩個檔案。
@@ -60,7 +60,7 @@ tensorflowjs_converter \
 
 ### HTTP 請求
 
-如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模組的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。[這份文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 flask 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
+如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模組的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。[這份文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
 
 通常，你的 HTTP 伺服器對於請求有特殊的限制和需求，像是 HTTP 方法、表頭和認證用的憑證資訊。你可以透過將 `save` 方法中的 URL 字串換成呼叫 `tf.io.browserHTTPRequest` 對請求的這些方面做細部的控制，這是個比較冗長的 API，但可以在 `save` 提出 HTTP 請求時保持較高的靈活性。例如：
 
@@ -76,10 +76,10 @@ await model.save(tf.io.browserHTTPRequest(
 
 儲存位置 | Scheme 字串 | 範例程式碼
 -----|------|-----
-瀏覽器 Local Storage | `localstorage://` | `await model.loadModel('localstorage://my-model-1');` 
-瀏覽器 IndexedDB | `indexddb://` | `await model.loadModel('indexddb://my-model-1');` 
-使用者從瀏覽器上傳的檔案 | N/A | `await tf.loadModel(tf.io.browserFiles([modelJSONFile, weightsFile]));` 
-HTTP 請求 | `http://` 或 `https://` | `await tf.loadModel('http://model-server.domain/download/model.json');` 
+瀏覽器 Local Storage | `localstorage://` | `await tf.loadModel('localstorage://my-model-1');`
+瀏覽器 IndexedDB | `indexddb://` | `await tf.loadModel('indexddb://my-model-1');`
+使用者從瀏覽器上傳的檔案 | N/A | `await tf.loadModel(tf.io.browserFiles([modelJSONFile, weightsFile]));`
+HTTP 請求 | `http://` 或 `https://` | `await tf.loadModel('http://model-server.domain/download/model.json');`
 
 在所有載入路由中，如果成功的話，`tf.loadModel` 回傳一個（以 `Promise` 包裝的）`tf.Model` 物件；如果失敗的話，回傳一個 `Error`。
 
