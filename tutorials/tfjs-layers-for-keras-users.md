@@ -61,7 +61,7 @@ JavaScript 函數沒有同等於 Python 函數中的關鍵字參數。我們希�
 
 有一些 Model 類別的方法，例如：`Model.compile()`也將 JavaScript 物件結構作為輸入。但請記住，`Model.fit()`、`Model.evalute()`和 `Model.predict()` 略有不同。由於這些方法強制 `x`（特徵）`y` （標籤或目標）資料作為輸入，`x`和`y`是由後續扮演關鍵字參數角色的物件結構所分離的位置參數。
 
-```javascript=
+```javascript
 // JavaScript:
 await model.fit(xs, ys, {epochs: 1000});
 ```
