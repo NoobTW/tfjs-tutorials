@@ -135,7 +135,7 @@ const result = predict(2);
 result.print() // 輸出：24
 ```
 
-你也可以用深度學習中比較熱門的方法：透過高階 API `[tf.model](https://js.tensorflow.org/api/latest/index.html#model)` 用*層*建構模型。下面這段程式碼建構了一個 `[tf.sequential](https://js.tensorflow.org/api/latest/index.html#sequential)` 的模型：
+你也可以用深度學習中比較熱門的方法：透過高階 API [`tf.model`](https://js.tensorflow.org/api/latest/index.html#model) 用*層*建構模型。下面這段程式碼建構了一個 [`tf.sequential`](https://js.tensorflow.org/api/latest/index.html#sequential) 的模型：
 
 ```javascript
 const model = tf.sequential();
@@ -152,9 +152,9 @@ model.compile({optimizer, loss: 'categoricalCrossentropy'});
 model.fit({x: data, y: labels)});
 ```
 
-TensorFlow.js 中還有許多可用的不同型態的層，像是 [`tf.layers.simpleRNN`](https://js.tensorflow.org/api/latest/index.html#layers.simpleRNN)、[`tf.layers.gru`](https://js.tensorflow.org/api/latest/index.html#layers.gru)、[`tf.layers.lstm`](https://js.tensorflow.org/api/latest/index.html#layers.lstm)
+TensorFlow.js 中還有許多可用的不同型態的層，像是 [`tf.layers.simpleRNN`](https://js.tensorflow.org/api/latest/index.html#layers.simpleRNN)、[`tf.layers.gru`](https://js.tensorflow.org/api/latest/index.html#layers.gru)、[`tf.layers.lstm`](https://js.tensorflow.org/api/latest/index.html#layers.lstm)。
 
-## 記憶體管理：dipose 和 tf.tidy
+## 記憶體管理：dispose 和 tf.tidy
 
 由於 TensorFlow.js 使用 GPU 來加速數學運算，使用張量和變數時管理 GPU 記憶體是必要的。
 
@@ -200,7 +200,7 @@ average.print() // 輸出： 3.5
 
 # 其他資源
 
-造訪 [TensorFlow.js API Reference] 以查看套件的詳細文件。
+造訪 [TensorFlow.js API Reference](https://js.tensorflow.org/api/latest/index.html) 以查看套件的詳細文件。
 
 想要更深度的瞭解機器學習架構，可以閱讀以下資源：
 - [Machine Learning Crash Course](https://developers.google.com/machine-learning/crash-course)（註： 這個課程的練習使用 TensorFlow 的 [Python API](https://www.tensorflow.org/api_docs/python/)，不過機器學習的核心概念一樣可以應用在 TensorFlow.js）
