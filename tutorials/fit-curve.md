@@ -10,7 +10,12 @@
 
 這份教學重點在使用 TensorFlow.js 建立模型並學習其係數的程式碼。本教學的完整程式碼（包括產生數據和圖表的程式碼）可以在 [這裡](https://github.com/tensorflow/tfjs-examples/tree/master/polynomial-regression-core) 找到。
 
-你可以執行以下指令，在本機執行程式碼：
+在本機執行程式碼，你需要安裝以下依賴項：
+
+- [Node.js](https://nodejs.org) 8.9或更高版本
+- [Yarn](https://yarnpkg.com/en/) 或 [NPM CLI](https://docs.npmjs.com/cli/npm)
+
+以下的指令使用 Yarn，但如果你熟悉並選擇使用 NPM CLI 亦可：
 
 ```bash
 $ git clone https://github.com/tensorflow/tfjs-examples

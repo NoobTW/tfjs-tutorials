@@ -6,7 +6,7 @@
 
 ## 儲存 tf.Model
 
-讓我們先從最簡單、最不麻煩的方式來儲存一個 `tf.Model`：存到瀏覽器裡的 Local Storage。Local Storage 是一個標準的客戶端（client-side）儲存空間。在同一個頁面中，資料會被保存以供下次讀取使用。你可以在 [MDN page](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 學到更多有關 Local Storage。
+讓我們先從最簡單、最不麻煩的方式來儲存一個 `tf.Model`：存到瀏覽器裡的 Local Storage。Local Storage 是一個標準的客戶端（client-side）儲存空間。在同一個頁面中，資料會被保存以供下次讀取使用。你可以在此 [MDN 頁面](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 學到更多有關 Local Storage 的訊息。
 
 假設你有個 `tf.Model` 物件叫做 `model`，而他是從頭開始以層 API 或從已訓練好的 Keras 模型載入的話，你可以用這一行程式碼把它存到 Local Storage 裡：
 
@@ -30,6 +30,7 @@ const saveResult = await model.save('localstorage://my-model-1');
 瀏覽器 IndexedDB | `indexddb://` | `await model.save('indexddb://my-model-1');`
 觸發檔案下載 | `downloads://` | `await model.save('downloads://my-model-1');`
 HTTP 請求 | `http://` 或 `https://` | `await model.save('http://model-server.domain/upload');`
+檔案系統（Node.js） | `file://` | `await model.save('file:///tmp/my-model-1');`
 
 我們會在接下來的章節解釋其中一些儲存位置。
 
@@ -44,31 +45,43 @@ HTTP 請求 | `http://` 或 `https://` | `await model.save('http://model-server.
 1. 一個名為 `my-model-1.json` 的文字 JSON 檔案，裡面包含 `modelTopology`（模型的拓墣）和 `weightsManifest`（權重的表示）兩個欄位。
 2. 一個包含權重值的二進位檔案 `my-model-1.weights.bin`。
 
+這兩個檔案的格式和透過 [tensorflowjs 轉換器](https://pypi.org/project/tensorflowjs/) 從 Keras HDF5 轉換過來的檔案格式相同。
+
 註：某些瀏覽器需要先獲得使用者的允許，才能一次下載兩個檔案。
-
-這兩個檔案的格式和透過 [tensorflowjs 轉換器](https://pypi.org/project/tensorflowjs/) 從 Keras HDF5 轉換過來的檔案格式相同。權重存在一個檔案，而不是被切割存放在 4-MB 的檔案。你可以把這些檔案轉成 HDF5，讓 Keras 可以把它當作 Keras 模型直接使用或讀取，例如：
-
-```Bash
-# 假設你已經下載 `my-model-1.json`, 和一個權重檔案。
-# 透過以下指令來把檔案轉成 Keras 可以讀的 HDF5（.h5）檔案。
-# （需要 tensorflowjs pip 套件 0.3.1+）
-
-tensorflowjs_converter \
-    --input_format tensorflowjs --output_format keras \
-    ./my-model-1.json /tmp/my-model-1.h5
-```
 
 ### HTTP 請求
 
-如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模型的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。[這份文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
+如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模型的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。這份 [文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest) 包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
 
-通常，你的 HTTP 伺服器對於請求有特殊的限制和需求，像是 HTTP 方法、表頭和認證用的憑證資訊。你可以透過將 `save` 方法中的 URL 字串換成呼叫 `tf.io.browserHTTPRequest` 對請求的這些方面做細部的控制，這是個比較冗長的 API，但可以在 `save` 提出 HTTP 請求時保持較高的靈活性。例如：
+在正常情況下，你的 HTTP 伺服器對於請求有特殊的限制和需求，像是 HTTP 方法、表頭和認證用的憑證資訊。你可以透過將 `save` 方法中的 URL 字串換成呼叫 `tf.io.browserHTTPRequest` 對請求的這些方面做細部的控制，這是個比較冗長的 API，但可以在 `save` 提出 HTTP 請求時保持較高的靈活性。例如：
 
 ```javascript
 await model.save(tf.io.browserHTTPRequest(
     'http://model-server.domain/upload',
     {method: 'PUT', headers: {'header_key_1': 'header_value_1'}}));
 ```
+
+## 本機檔案系統
+
+TensorFlow.js 可以在 Node.js 環境中使用。有關更多詳細信息，請參閱 [tfjs-node 項目](https://github.com/caisq/tfjs-node)。Node.js 和瀏覽器之間的其中區一個區別是 Node.js 可以直接使用本機檔案系統。因此，`tf.Model` 可以儲存到到檔案系統中。這與在Keras中將模型儲存到硬碟的方式是一樣的。要做到這一點，你必須先導入 `@tensorflow/tfjs-node` 軟件包。例如使用 Node.js 的 `require` 語法：
+
+```javascript
+require('@tensorflow/tfjs-node');
+```
+
+導入軟件包後，使用 `file://` URL 字串便可將模型儲存和加載。在儲存模型時，URL 字串後面是要儲存模型的目錄的路徑，例如：
+
+```javascript
+await model.save('file:///tmp/my-model-1');
+```
+
+以上的指令會在 `/tmp/my-model-1` 目錄中生成一個 `model.json` 檔案和一個 `weights.bin` 檔案。這些檔案的格式與[檔案下載](#檔案下載)和[HTTP 請求](#HTTP-請求)部分中所述的格式相同。儲存後的模型可以在導入了 TensorFlow.js 的 Node.js 程序或瀏覽器載入。在 Node.js 環境中，請使用 `tf.loadModel()` 和 `model.json` 檔案的路徑：
+
+```javascript
+const model = await tf.loadModel('file:///tmp/my-model-1/model.json');
+```
+
+在瀏覽器中，將儲存的檔案作為網絡服務器的靜態文件提供。
 
 ## 載入 tf.Model
 
@@ -80,6 +93,7 @@ await model.save(tf.io.browserHTTPRequest(
 瀏覽器 IndexedDB | `indexddb://` | `await tf.loadModel('indexddb://my-model-1');`
 使用者從瀏覽器上傳的檔案 | N/A | `await tf.loadModel(tf.io.browserFiles([modelJSONFile, weightsFile]));`
 HTTP 請求 | `http://` 或 `https://` | `await tf.loadModel('http://model-server.domain/download/model.json');`
+檔案系統（Node.js） | `file://` | `await tf.loadModel('file:///tmp/my-model-1/model.json');`
 
 在所有載入路由中，如果成功的話，`tf.loadModel` 回傳一個（以 `Promise` 包裝的）`tf.Model` 物件；如果失敗的話，回傳一個 `Error`。
 
@@ -126,4 +140,21 @@ tf.io.moveModel('localstorage://my-model', 'indexeddb://cloned-model');
 
 // 移除模型。
 tf.io.removeModel('indexeddb://cloned-model');
+```
+
+## 將儲存的 `tf.Model` 轉換為 Keras 格式
+
+如上述，將 `tf.Model` 儲存為檔案有兩種方法：
+
+* 在瀏覽器中使用 `downloads://` Scheme 字串下載文件
+* 在 Node.js 中使用 `file://` URL 字串將模型直接寫入本機檔案系統。透過 [tensorflowjs 轉換器](https://pypi.org/project/tensorflowjs/) 將那些檔案轉換為 HDF5 格式後 Keras 便可以把它當作 Keras 模型直接使用或讀取，例如：
+
+```Bash
+# 假設你已經下載 `my-model-1.json`, 和一個權重檔案。
+
+pip install tensorflowjs
+
+tensorflowjs_converter \
+    --input_format tensorflowjs --output_format keras \
+    ./my-model-1.json /tmp/my-model-1.h5
 ```
