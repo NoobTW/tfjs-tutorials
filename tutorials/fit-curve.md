@@ -15,7 +15,7 @@
 - [Node.js](https://nodejs.org) 8.9或更高版本
 - [Yarn](https://yarnpkg.com/en/) 或 [NPM CLI](https://docs.npmjs.com/cli/npm)
 
-以下的指令使用Yarn，但如果你熟悉並選擇使用 NPM CLI 亦可：
+以下的指令使用 Yarn，但如果你熟悉並選擇使用 NPM CLI 亦可：
 
 ```bash
 $ git clone https://github.com/tensorflow/tfjs-examples
