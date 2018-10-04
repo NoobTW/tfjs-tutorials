@@ -6,7 +6,7 @@
 
 ## 儲存 tf.Model
 
-讓我們先從最簡單、最不麻煩的方式來儲存一個 `tf.Model`：存到瀏覽器裡的 Local Storage。Local Storage 是一個標準的客戶端（client-side）儲存空間。在同一個頁面中，資料會被保存以供下次讀取使用。你可以在此 [MDN 頁面](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 學到更多有關 Local Storage 的信息。
+讓我們先從最簡單、最不麻煩的方式來儲存一個 `tf.Model`：存到瀏覽器裡的 Local Storage。Local Storage 是一個標準的客戶端（client-side）儲存空間。在同一個頁面中，資料會被保存以供下次讀取使用。你可以在此 [MDN 頁面](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) 學到更多有關 Local Storage 的訊息。
 
 假設你有個 `tf.Model` 物件叫做 `model`，而他是從頭開始以層 API 或從已訓練好的 Keras 模型載入的話，你可以用這一行程式碼把它存到 Local Storage 裡：
 
@@ -51,7 +51,7 @@ HTTP 請求 | `http://` 或 `https://` | `await model.save('http://model-server.
 
 ### HTTP 請求
 
-如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模型的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。這個[文檔字符串](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest)包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
+如果 `tf.Model.save` 是和 HTTP/HTTPS URL 一起被呼叫的話，模型的拓墣和權重會被透過 [POST](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods/POST) 請求傳送動指定的 HTTP 伺服器，該 POST 請求的是 `multipart/form-data` 格式，這種格式是一個上傳檔案到伺服器用的標準 MIME 格式，裡面則包含兩個檔案：`model.json` 及 `model.weights.bin`，檔案的格式和透過 `downloads://` 觸發檔案下載的格式完全一樣（參考上面的章節）。這份 [文件](https://js.tensorflow.org/api/latest/#tf.io.browserHTTPRequest) 包含一段 Python 代碼，示範如何使用 [flask](http://flask.pocoo.org/) 網頁框架、Keras 和 TensorFlow 來處理原本保存的請求，並將 Keras Model 物件放進伺服器的記憶體中。
 
 在正常情況下，你的 HTTP 伺服器對於請求有特殊的限制和需求，像是 HTTP 方法、表頭和認證用的憑證資訊。你可以透過將 `save` 方法中的 URL 字串換成呼叫 `tf.io.browserHTTPRequest` 對請求的這些方面做細部的控制，這是個比較冗長的 API，但可以在 `save` 提出 HTTP 請求時保持較高的靈活性。例如：
 
