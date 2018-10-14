@@ -79,7 +79,7 @@ function predict(x) {
 
 ### 定義損失函數
 
-在這份教學哩，我們將使用 [均方誤差（MSE）](https://developers.google.com/machine-learning/crash-course/glossary/#MSE) 來當我們的損失函數。均方誤差把每個實際的 y 值和我們透過每個 x 算出來的 y 值相減做平方，並曲平均當作結果。
+在這份教學裡，我們將使用 [均方誤差（MSE）](https://developers.google.com/machine-learning/crash-course/glossary/#MSE) 來當我們的損失函數。均方誤差把每個實際的 y 值和我們透過每個 x 算出來的 y 值相減做平方，並取平均當作結果。
 
 我們可以在 TensorFlow.js 中像這樣定義出一個 MSE 函數：
 
@@ -164,7 +164,7 @@ for (let iter = 0; iter < numIterations; iter++) {
 
 一旦我們的程式跑完，我們就能使用 *a*、*b*、*c*、*d* 的結果來繪製曲線：
 
-![一個三次曲線，幾乎逼境我們原始資料的形狀。](/images/fit_curve_learned.png)
+![一個三次曲線，幾乎逼進我們原始資料的形狀。](/images/fit_curve_learned.png)
 
 這結果比我們當初隨機產生係數所繪製的曲線好很多。
 
