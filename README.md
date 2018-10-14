@@ -8,7 +8,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 學習 TensorFlow.js 中的核心概念：張量、運算子、模型、層，以及訓練，並學習一些有用的記憶體管理方法，以及如何寫出簡潔（tidy）的程式碼。
 
-### [訓練的第一步：從合成數劇中訓練曲線](/tutorials/fit-curve.md)
+### [訓練的第一步：從合成數據中訓練曲線](/tutorials/fit-curve.md)
 
 這份教學示範了從零開始使用 TensorFlow.js 操作建立一個玩具模型。我們會將一個多項式函數調整到適合一些合成數據的曲線。
 
