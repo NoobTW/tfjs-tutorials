@@ -1,6 +1,6 @@
 # 建立自訂的 WebGL 操作
 
-要定義 WebGL 的操作的話，我們要做的事情就是創造一個實作 `tf.webgl.GPGPUProgram` 的物件。
+要定義 WebGL 的操作的話，我們要做的事情就是建立一個實作 `tf.webgl.GPGPUProgram` 的物件。
 
 這個介面的定義如下：
 
