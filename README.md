@@ -28,7 +28,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 這份教學將解釋如何訓練神經網路，以便從 Webcam 資料中進行預測。我們將使用這些預測資料來玩 Pac-Man！
 
-### [轉移學習：建立一個語音辨識模型](https://codelabs.developers.google.com/codelabs/tensorflowjs-audio-codelab/index.htm) （外部網站）
+### [轉移學習：建立一個語音辨識模型](https://codelabs.developers.google.com/codelabs/tensorflowjs-audio-codelab/index.html) （外部網站）
 
 在這份教學裡擬將能夠建立一個語音辨識模型，並用它來聲控瀏覽器的聲音滑桿。
 
