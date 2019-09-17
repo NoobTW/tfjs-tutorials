@@ -5,7 +5,7 @@
 ## 目錄
 
 * [如何開始機器學習](#如何開始**機器學習**)
-  * [專住在 TensorFlow.js](#專注在-tensorflowjs)
+  * [專注在 TensorFlow.js](#專注在-tensorflowjs)
   * [綜合資源](#綜合資源)
   * [數學概念](#數學概念)
   * [其他工具](#其他工具)
@@ -22,7 +22,7 @@ TensorFlow.js 是一個提供建造深度神經網路建築磚頭的工具，但
 
 有一個能夠起頭的關於神經網路的高水準介紹是 3blue1brown 所提供的 Neural Networks 的教學。
 
-### 專住在 TensorFlow.js
+### 專注在 TensorFlow.js
 
 這些資源聚焦在 TensorFlow.js 以及初學者學習機器學習上面。
 
@@ -52,15 +52,15 @@ TensorFlow.js 是一個提供建造深度神經網路建築磚頭的工具，但
 
 ### 其他工具
 
-如果您只是剛剛開始而且發現 TensorFlow.js 令您有意點招架不住，但是您還是想要在瀏覽器上面實驗一下機器學習的話，您也許會有興趣看看下面這些資源：
+如果您只是剛剛開始而且發現 TensorFlow.js 令您有一點招架不住，但是您還是想要在瀏覽器上面實驗一下機器學習的話，您也許會有興趣看看下面這些資源：
 
-* [ML5](https://ml5js.org/) 是一個基於 TensorFlow.js 所建立的函式庫，它在瀏覽器中提供了提供了一個更高層級的機器學習演算法 API。
-* [tfjs-models](https://github.com/tensorflow/tfjs-models) 是一個小巧但是逐漸增長預先訓練好的模型集合，利用直接了當的 API 來執行多樣的任務，這些東西讓您能夠將機器學習完全視為一個黑盒子。
+* [ML5](https://ml5js.org/) 是一個基於 TensorFlow.js 所建立的函式庫，它在瀏覽器中提供了更高層級的機器學習演算法 API。
+* [tfjs-models](https://github.com/tensorflow/tfjs-models) 是一個小巧但正在逐漸增長的預先訓練好之模型集合，利用直接了當的 API 來執行多樣的任務，這些東西讓您能夠將機器學習完全視為一個黑盒子。
 
 ## 如何開始學習 **JavaScript（一種程式語言）**
 
-如果您是 JavaScript 的新手的話，然後您需要關於這個
-語言的大概了解或是教學的話，這些資源是一個很好的開始。
+如果您是 JavaScript 的新手的話，然後您需要關於這門
+語言的大概了解或是教學的話，這些資源將會是一個好的開始。
 
 * [Mozilla JavaScript 指南](https://developer.mozilla.org/en-US/docs/Web/JavaScript) by Mozilla [網站]
 * [雄辯 JavaScript](http://eloquentjavascript.net/) by Marijin Haverbeke [線上書籍]
@@ -95,4 +95,4 @@ TensorFlow.js 是一個提供建造深度神經網路建築磚頭的工具，但
 
 ### 建立學習資源以及部落格貼文
 
-另外一項很棒的貢獻就是別人能夠閱讀而且從中學習的學習資源像是部落格貼文或是開放原始碼的範例，如果你已經做出一些你認為別人可能會發現有幫助的東西，請儘管分享在 [TensorFlow.js 社群郵件列表（TensorFlow.js Community Mailing List）](https://groups.google.com/a/tensorflow.org/forum/#!forum/tfjs)，我們在這裡維護一個 [社群專案的列表](https://github.com/tensorflow/tfjs/blob/master/GALLERY.md)。
+另外一項很棒的貢獻就是別人能夠閱讀而且從中學習的學習資源像是部落格貼文或是開放原始碼的範例，如果你已經做出一些你認為別人可能會發現有幫助的東西，請儘管分享在 [TensorFlow.js 社群郵件列表（TensorFlow.js Community Mailing List）](https://groups.google.com/a/tensorflow.org/forum/#!forum/tfjs)，我們有在這裡維護一個 [社群專案的列表](https://github.com/tensorflow/tfjs/blob/master/GALLERY.md)。
