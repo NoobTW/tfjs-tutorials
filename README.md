@@ -18,7 +18,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 ### [訓練的第一步：從合成數據中訓練曲線](/tutorials/fit-curve.md)
 
-這份教學示範了從零開始使用 TensorFlow.js 操作建立一個玩具模型。我們會將一個多項式函數調整到適合一些合成數據的曲線。
+這份教學將示範從零開始使用 TensorFlow.js 操作建立一個玩具模型。我們會將一個多項式函數調整到適合一些合成數據的曲線。
 
 ### [圖像訓練：使用卷積神經網路辨識手寫數字](/tutorials/mnist.md)
 
@@ -30,7 +30,7 @@ tfjs-tutorials 是由社群翻譯的 TensorFlow.js 中文指南。原始資料�
 
 ### [轉移學習：建立一個語音辨識模型](https://codelabs.developers.google.com/codelabs/tensorflowjs-audio-codelab/index.html) （外部網站）
 
-在這份教學裡擬將能夠建立一個語音辨識模型，並用它來聲控瀏覽器的聲音滑桿。
+在這份教學裡將能夠建立一個語音辨識模型，並用它來聲控瀏覽器的聲音滑桿。
 
 ### [儲存和載入 tf.Model](/tutorials/model-save-load.md)
 
