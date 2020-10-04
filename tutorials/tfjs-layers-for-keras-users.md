@@ -140,7 +140,7 @@ const flatten = tf.layers.flatten();
 
 flatten.apply(tf.ones([2, 3, 4])).print();
 ```
-此特色讓人想起（Python）TensorFlow 的 [Eager Execution](https://ai.googleblog.com/2017/10/eager-execution-imperative-define-by.html)。它為模型開發提供了更強大的交互姓及除錯能力，此外還打開了組成動態神經網絡的大門。
+此特色讓人想起（Python）TensorFlow 的 [Eager Execution](https://ai.googleblog.com/2017/10/eager-execution-imperative-define-by.html)。它為模型開發提供了更強大的交互性及除錯能力，此外還打開了組成動態神經網路的大門。
 
 ## 優化器在 `train` 之下，而非 `optimizers` 之下
 在 Keras 中，優化器物件的建構函數會在 `keras.optimizers.` 命名空間下，在 TensorFlow.js 的層中，優化器的工廠方法會在 `tf.train.` 命名空間下。例如：
